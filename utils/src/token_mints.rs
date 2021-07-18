@@ -10,6 +10,9 @@ pub const RAY_USDC_LP_TOKEN_DECIMALS: u8 = 6;
 pub const RAY_USDT_LP_TOKEN_DECIMALS: u8 = 6;
 pub const RAY_SOL_LP_TOKEN_DECIMALS: u8 = 6;
 pub const RAY_SRM_LP_TOKEN_DECIMALS: u8 = 6;
+pub const SOL_USDC_LP_TOKEN_DECIMALS: u8 = 9;
+pub const SRM_USDC_LP_TOKEN_DECIMALS: u8 = 6;
+pub const USDT_USDC_LP_TOKEN_DECIMALS: u8 = 6;
 
 pub fn usdc_token_mint() -> Pubkey {
     *PUBKEY_MAP.get("usdc_token_mint").unwrap()
@@ -45,6 +48,39 @@ pub fn ray_sol_lp_token_mint() -> Pubkey {
 
 pub fn ray_srm_lp_token_mint() -> Pubkey {
     *PUBKEY_MAP.get("ray_srm_lp_token_mint").unwrap()
+}
+
+pub fn sol_usdc_lp_token_mint() -> Pubkey {
+    *PUBKEY_MAP.get("sol_usdc_lp_token_mint").unwrap()
+}
+
+pub fn srm_usdc_lp_token_mint() -> Pubkey {
+    *PUBKEY_MAP.get("srm_usdc_lp_token_mint").unwrap()
+}
+
+pub fn usdt_usdc_lp_token_mint() -> Pubkey {
+    *PUBKEY_MAP.get("usdt_usdc_lp_token_mint").unwrap()
+}
+
+#[derive(Debug, Clone, Copy)]
+pub enum Tokens {
+    RAY,
+    SOL,
+    USDC,
+    USDT,
+    SRM,
+}
+
+impl Tokens {
+    pub fn mint(self) -> Pubkey {
+        match self {
+            Tokens::RAY => ray_token_mint(),
+            Tokens::SOL => wsol_token_mint(),
+            Tokens::USDC => usdc_token_mint(),
+            Tokens::USDT => usdt_token_mint(),
+            Tokens::SRM => srm_token_mint(),
+        }
+    }
 }
 
 #[cfg(test)]

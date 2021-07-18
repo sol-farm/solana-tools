@@ -1,11 +1,10 @@
-//! provides a lazily cached hashmap of public keys useful for avoiding repeated runtime parsing of strings into pubkeys
-
 use std::collections::HashMap;
 
 use anchor_client::solana_sdk::pubkey::Pubkey;
 use once_cell::sync::Lazy;
 use std::str::FromStr;
 
+// used for a static hashmap that prevents repeated parsing of strings into Pubkey's
 pub static PUBKEY_MAP: Lazy<HashMap<&str, Pubkey>> = Lazy::new(|| {
     let mut m: HashMap<&str, Pubkey> = HashMap::new();
     m.insert(
@@ -122,6 +121,66 @@ pub static PUBKEY_MAP: Lazy<HashMap<&str, Pubkey>> = Lazy::new(|| {
         "ray_usdt_amm_id",
         Pubkey::from_str("DVa7Qmb5ct9RCpaU7UTpSaf3GVMYz17vNVU67XpdCRut")
             .expect("failed to parse ray-usdt amm id"),
+    );
+    m.insert(
+        "sol_usdc_market",
+        Pubkey::from_str("9wFFyRfZBsuAha4YcuxcXLKwMxJR43S7fPfQLusDBzvT")
+            .expect("failed to parse sol-usdc market"),
+    );
+    m.insert(
+        "sol_usdc_open_orders",
+        Pubkey::from_str("HRk9CMrpq7Jn9sh7mzxE8CChHG8dneX9p475QKz4Fsfc")
+            .expect("failed to pares sol-usdc open orders"),
+    );
+    m.insert(
+        "sol_usdc_lp_token_mint",
+        Pubkey::from_str("8HoQnePLqPj4M7PUDzfw8e3Ymdwgc7NLGnaTUapubyvu")
+            .expect("failed to parse sol-usdc lp token mint"),
+    );
+    m.insert(
+        "sol_usdc_amm_id",
+        Pubkey::from_str("58oQChx4yWmvKdwLLZzBi4ChoCc2fqCUWBkwMihLYQo2")
+            .expect("failed to parse sol-usdc amm id"),
+    );
+    m.insert(
+        "srm_usdc_market",
+        Pubkey::from_str("ByRys5tuUWDgL73G8JBAEfkdFf8JWBzPBDHsBVQ5vbQA")
+            .expect("failed to parse srm-usdc market"),
+    );
+    m.insert(
+        "srm_usdc_open_orders",
+        Pubkey::from_str("GJwrRrNeeQKY2eGzuXGc3KBrBftYbidCYhmA6AZj2Zur")
+            .expect("failed to parse srm-usdc open orders"),
+    );
+    m.insert(
+        "srm_usdc_lp_token_mint",
+        Pubkey::from_str("9XnZd82j34KxNLgQfz29jGbYdxsYznTWRpvZE3SRE7JG")
+            .expect("failed to parse srm-usd lp token mint"),
+    );
+    m.insert(
+        "srm_usdc_amm_id",
+        Pubkey::from_str("8tzS7SkUZyHPQY7gLqsMCXZ5EDCgjESUHcB17tiR1h3Z")
+            .expect("failed to parse srm usdc amm id"),
+    );
+    m.insert(
+        "usdt_usdc_market",
+        Pubkey::from_str("77quYg4MGneUdjgXCunt9GgM1usmrxKY31twEy3WHwcS")
+        .expect("failed to parse usdt-usdc market")
+    );
+    m.insert(
+        "usdt_usdc_amm_id",
+        Pubkey::from_str("7TbGqz32RsuwXbXY7EyBCiAnMbJq1gm1wKmfjQjuwoyF")
+        .expect("failed to parse usdt-usdc amm id")
+    );
+    m.insert(
+        "usdt_usdc_lp_token_mint",
+        Pubkey::from_str("HqbxvyDnod2zTrhRJ5sSJn4CNnake6M9ksQjHxBcHBZj")
+        .expect("failed to parse usdt-usdc lp token mint")
+    );
+    m.insert(
+        "usdt_usdc_open_orders",
+        Pubkey::from_str("6XXvXS3meWqnftEMUgdY8hDWGJfrb8t22x2k1WyVYwhF")
+        .expect("failed to parse usdt-usdc open orders")
     );
     m
 });
