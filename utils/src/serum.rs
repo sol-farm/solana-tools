@@ -9,7 +9,7 @@ use anyhow::Result;
 use num_traits::pow::Pow;
 use serum_dex::critbit::SlabView;
 use serum_dex::matching::OrderBookState;
-use serum_dex::state::{MarketState, OpenOrders};
+use serum_dex::state::{MarketState, OpenOrders, gen_vault_signer_key};
 use std::sync::Arc;
 use std::convert::identity;
 use anchor_lang::__private::bytemuck::cast_slice;
@@ -203,8 +203,9 @@ pub fn tick_size(
 
 
 pub fn print_serum_market_state(
-    market: &MarketState
-) {
+    market: &MarketState,
+    market_key: Pubkey,
+) -> Result<()> {
     let asks_key = Pubkey::new(cast_slice(&identity(market.asks) as &[_]));
     let bids_key = Pubkey::new(cast_slice(&identity(market.bids) as &[_]));
     let coin_mint = Pubkey::new(cast_slice(&identity(market.coin_mint) as &[_]));
@@ -224,6 +225,7 @@ pub fn print_serum_market_state(
     let fee_rate_bps = market.fee_rate_bps;
     let referrer_rebates_accrued = market.referrer_rebates_accrued;
 
+    let signer_key = gen_vault_signer_key(market.vault_signer_nonce, &market_key, &mainnet_serum_program_id())?;
 
     println!(
         "
@@ -243,7 +245,8 @@ pub fn print_serum_market_state(
             coin_lot_size {},
             pc_lot_size {},
             fee_rate_bps {},
-            referrer_rebates_accrued {},           
+            referrer_rebates_accrued {},
+            vault_signer {},
         ",
         asks_key,
         bids_key,
@@ -262,7 +265,9 @@ pub fn print_serum_market_state(
         pc_lot_size,
         fee_rate_bps,
         referrer_rebates_accrued,  
-    )
+        signer_key,
+    );
+    Ok(())
 }
 
 #[cfg(test)]
