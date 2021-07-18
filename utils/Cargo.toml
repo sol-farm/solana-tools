@@ -1,5 +1,5 @@
 [package]
-name = "utils"
+name = "solana-utils"
 version = "0.1.0"
 authors = ["bonedaddy <boned4ddy@protonmail.com>"]
 edition = "2018"

@@ -227,6 +227,7 @@ impl AMMs {
         
                 let mut bids_tuple = (bids_key, bids_acct);
                 let bids_account = bids_tuple.into_account_info();
+
                 let mut asks = market_state.load_asks_mut(&asks_account)?;
                 let mut bids = market_state.load_bids_mut(&bids_account)?;
                 let order_book_state = OrderBookState {
