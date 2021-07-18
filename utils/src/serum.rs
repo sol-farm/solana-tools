@@ -11,6 +11,8 @@ use serum_dex::critbit::SlabView;
 use serum_dex::matching::OrderBookState;
 use serum_dex::state::{MarketState, OpenOrders};
 use std::sync::Arc;
+use std::convert::identity;
+use anchor_lang::__private::bytemuck::cast_slice;
 
 pub fn ray_sol_market() -> Pubkey {
     *PUBKEY_MAP.get("ray_sol_market").unwrap()
@@ -197,6 +199,70 @@ pub fn tick_size(
     let b = (base_lot_size as f64) * (quote_multiplier as f64);
 
     a / b
+}
+
+
+pub fn print_serum_market_state(
+    market: &MarketState
+) {
+    let asks_key = Pubkey::new(cast_slice(&identity(market.asks) as &[_]));
+    let bids_key = Pubkey::new(cast_slice(&identity(market.bids) as &[_]));
+    let coin_mint = Pubkey::new(cast_slice(&identity(market.coin_mint) as &[_]));
+    let pc_mint = Pubkey::new(cast_slice(&identity(market.pc_mint) as &[_]));
+    let coin_vault = Pubkey::new(cast_slice(&identity(market.coin_vault) as &[_]));
+    let coin_deposits_total = market.coin_deposits_total;
+    let coin_fees_accrued = market.coin_fees_accrued;
+    let pc_vault = Pubkey::new(cast_slice(&identity(market.pc_vault) as &[_]));
+    let pc_deposits_total = market.pc_deposits_total;
+    let pc_fees_accrued = market.pc_fees_accrued;
+    let pc_dust_threshold = market.pc_dust_threshold;
+
+    let request_queue = Pubkey::new(cast_slice(&identity(market.req_q) as &[_]));
+    let event_queue = Pubkey::new(cast_slice(&identity(market.event_q) as &[_]));
+    let coin_lot_size = market.coin_lot_size;
+    let pc_lot_size = market.pc_lot_size;
+    let fee_rate_bps = market.fee_rate_bps;
+    let referrer_rebates_accrued = market.referrer_rebates_accrued;
+
+
+    println!(
+        "
+            asks_key {},
+            bids_key {},
+            coin_mint {},
+            pc_mint {},
+            coin_vault {},
+            coin_deposits_total {},
+            coin_fees_accrued {},
+            pc_vault {},
+            pc_deposits_total {},
+            pc_fees_accrued {},
+            pc_dust_threshold {},
+            request_queue {},
+            event_queue {},
+            coin_lot_size {},
+            pc_lot_size {},
+            fee_rate_bps {},
+            referrer_rebates_accrued {},           
+        ",
+        asks_key,
+        bids_key,
+        coin_mint,
+        pc_mint,
+        coin_vault,
+        coin_deposits_total,
+        coin_fees_accrued,
+        pc_vault,
+        pc_deposits_total,
+        pc_fees_accrued,
+        pc_dust_threshold,
+        request_queue,
+        event_queue,
+        coin_lot_size,
+        pc_lot_size,
+        fee_rate_bps,
+        referrer_rebates_accrued,  
+    )
 }
 
 #[cfg(test)]
